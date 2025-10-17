@@ -51,12 +51,7 @@ const startPlugin = () => {
     try {
         const patch1 = before("generate", RowManager.prototype, ([data]) => {
             if (shouldModify(data.message)) {
-                const date = new Date(data.message.timestamp);
-                const hours = String(date.getHours()).padStart(2, '0');
-                const minutes = String(date.getMinutes()).padStart(2, '0');
-                const currentTime = `${hours}:${minutes}`;
-
-                data.timestamp.text = `${currentTime} • Test`;
+                data.message.content += `[Triggered Encryption]`;
 
             }
         });
