@@ -1,4 +1,4 @@
-import { box, randomBytes } from './utils/tweetnacl';
+import { box, randomBytes } from './tweetnacl';
 
 const encodeUTF8 = (str: string): Uint8Array => new TextEncoder().encode(str);
 const decodeUTF8 = (bytes: Uint8Array): string => new TextDecoder().decode(bytes);
