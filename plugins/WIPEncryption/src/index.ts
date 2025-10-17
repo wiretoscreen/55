@@ -3,6 +3,7 @@ import { before } from "@vendetta/patcher";
 import { findByProps, findByName } from "@vendetta/metro";
 import { logger } from "@vendetta";
 import { storage } from "@vendetta/plugin";
+import { generateKeyPair } from "./functions";
 import Settings from "./Settings";
 
 const RowManager = findByName("RowManager");
@@ -57,6 +58,7 @@ let patches = [];
 
 const startPlugin = () => {
     try {
+        logger.log("TweetNaCl: " + generateKeyPair())
         const patch1 = before("generate", RowManager.prototype, ([data]) => {
             if (shouldModify(data.message)) {
             try {
