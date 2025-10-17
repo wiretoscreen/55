@@ -3,8 +3,14 @@ import { before } from "@vendetta/patcher";
 import { findByProps, findByName } from "@vendetta/metro";
 import { logger } from "@vendetta";
 import { storage } from "@vendetta/plugin";
-import { generateKeyPair } from "./functions";
 import Settings from "./Settings";
+import { box, randomBytes } from './tweetnacl';
+
+const encodeUTF8 = (str: string): Uint8Array => new TextEncoder().encode(str);
+const decodeUTF8 = (bytes: Uint8Array): string => new TextDecoder().decode(bytes);
+
+const encodeBase64 = (bytes: Uint8Array): string => btoa(String.fromCharCode(...bytes));
+const decodeBase64 = (str: string): Uint8Array => Uint8Array.from(atob(str), c => c.charCodeAt(0));
 
 const RowManager = findByName("RowManager");
 
@@ -58,7 +64,7 @@ let patches = [];
 
 const startPlugin = () => {
     try {
-        logger.log("TweetNaCl: " + generateKeyPair())
+        logger.log("TweetNaCl: " + box.keyPair())
         const patch1 = before("generate", RowManager.prototype, ([data]) => {
             if (shouldModify(data.message)) {
             try {
