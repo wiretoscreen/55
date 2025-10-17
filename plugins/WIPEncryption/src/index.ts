@@ -42,7 +42,11 @@ function constructMessage(message, channel) {
 }
 
 const shouldModify = (message) => {
-    return message?.content?.startsWith("<enc:");
+    if (!message.content?.startsWith("<enc:")) return false;
+
+    const content = message.content.split(":")[1];
+    
+    return content?.length > 2;
 };
 
 let patches = [];
@@ -51,7 +55,7 @@ const startPlugin = () => {
     try {
         const patch1 = before("generate", RowManager.prototype, ([data]) => {
             if (shouldModify(data.message)) {
-                data.message.content += `[Triggered Encryption]`;
+                data.message.content = `${atob(data.message.content.split(":")[1])}\n-# [Triggered Encryption]`;
 
             }
         });
