@@ -1,0 +1,14 @@
+{
+    "name": "Encryption",
+    "description": "Working in Progress",
+    "authors": [
+        {
+            "name": "stazy",
+            "id": "460493336076091392"
+        }
+    ],
+    "main": "src/index.ts",
+    "vendetta": {
+        "icon": "ic_badge_staff"
+    }
+}
