@@ -55,10 +55,11 @@ const startPlugin = () => {
     try {
         const patch1 = before("generate", RowManager.prototype, ([data]) => {
             if (shouldModify(data.message)) {
+            try {
                 const decryptedContent = (() => { try { return atob(data.message.content.split(":")[1]) } catch { return null } })();
                 if(decryptedContent == null) return
                 data.message.content = `${decryptedContent}\n-# [Triggered Encryption]`;
-
+            } catch(e) return
             }
         });
         patches.push(patch1);
