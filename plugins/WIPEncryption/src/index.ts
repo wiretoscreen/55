@@ -44,9 +44,12 @@ function constructMessage(message, channel) {
 const shouldModify = (message) => {
     if (!message?.content?.startsWith("<enc:")) return false;
 
-    const content = message.content.split(":")[1];
-    
-    return content?.length > 2;
+    const parts = message.content.split(":");
+    if (parts.length < 2) return false;
+
+    const encryptedContent = parts[1];
+
+    return encryptedContent?.length > 2;
 };
 
 
@@ -56,22 +59,13 @@ const startPlugin = () => {
     try {
         const patch1 = before("generate", RowManager.prototype, ([data]) => {
             if (shouldModify(data.message)) {
-                try {
-        const decryptedContent = (() => {
             try {
-                const encrypted = data?.message?.content?.split(":")[1];
-                return encrypted ? atob(encrypted) : null;
-            } catch {
-                return null;
-            }
-        })();
-
-        if (decryptedContent == null) return;
-
-        data.message.content = `${decryptedContent}\n-# [Triggered Encryption]`;
-    } catch (e) {
-        return;
-    }
+                let decryptedContent = atob(data.message.content?.split(":")[1]) ?? null
+                
+                
+                if(decryptedContent == null) return
+                data.message.content = `${decryptedContent}\n-# [Triggered Encryption]`;
+            } catch(e) { return }
             }
         });
         patches.push(patch1);
