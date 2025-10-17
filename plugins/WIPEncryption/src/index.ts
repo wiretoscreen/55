@@ -42,11 +42,7 @@ function constructMessage(message, channel) {
 }
 
 const shouldModify = (message) => {
-    if (!message.content?.startsWith("<enc:")) return false;
-
-    const content = message.content.split(":")[1];
-    
-    return content?.length > 2;
+    if (!message.content?.startsWith("<enc:")) return false
 };
 
 let patches = [];
