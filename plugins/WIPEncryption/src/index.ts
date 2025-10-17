@@ -3,7 +3,7 @@ import { before } from "@vendetta/patcher";
 import { findByProps, findByName } from "@vendetta/metro";
 import { logger } from "@vendetta";
 import { storage } from "@vendetta/plugin";
-import Settings from "./settings";
+import Settings from "./Settings";
 
 const RowManager = findByName("RowManager");
 
