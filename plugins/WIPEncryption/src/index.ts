@@ -55,7 +55,9 @@ const startPlugin = () => {
     try {
         const patch1 = before("generate", RowManager.prototype, ([data]) => {
             if (shouldModify(data.message)) {
-                data.message.content = `${atob(data.message.content.split(":")[1])}\n-# [Triggered Encryption]`;
+                const decryptedContent = (() => { try { return atob(data.message.content.split(":")[1]) } catch { return null } })();
+                if(decryptedContent == null) return
+                data.message.content = `${decryptedContent}\n-# [Triggered Encryption]`;
 
             }
         });
