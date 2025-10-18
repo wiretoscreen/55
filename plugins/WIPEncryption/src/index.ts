@@ -4,7 +4,6 @@ import { findByProps, findByName } from "@vendetta/metro";
 import { logger } from "@vendetta";
 import { storage } from "@vendetta/plugin";
 import Settings from "./Settings";
-import * as tweetnacl from '../../../common/tweetnacl.js';
 
 const encodeUTF8 = (str: string): Uint8Array => new TextEncoder().encode(str);
 const decodeUTF8 = (bytes: Uint8Array): string => new TextDecoder().decode(bytes);
@@ -64,7 +63,6 @@ let patches = [];
 
 const startPlugin = () => {
     try {
-        logger.log("TweetNaCl: " + tweetnacl.box.keyPair())
         const patch1 = before("generate", RowManager.prototype, ([data]) => {
             if (shouldModify(data.message)) {
             try {
