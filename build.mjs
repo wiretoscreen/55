@@ -45,7 +45,7 @@ const plugins = [
             return result.code;
         },
     },
-    esbuild({ minify: true }),
+    esbuild({ minify: false }),
 ];
 
 for (let plug of await readdir("./plugins")) {
