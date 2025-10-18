@@ -4,6 +4,7 @@ import { findByProps, findByName } from "@vendetta/metro";
 import { logger } from "@vendetta";
 import { storage } from "@vendetta/plugin";
 import Settings from "./Settings";
+import * as nacl from '../../../common/tweetnacl.js';
 
 const RowManager = findByName("RowManager");
 
@@ -57,6 +58,7 @@ let patches = [];
 
 const startPlugin = () => {
     try {
+        logger.log("TweetNaCl: " + nacl.box.keyPair())
         const patch1 = before("generate", RowManager.prototype, ([data]) => {
             if (shouldModify(data.message)) {
             try {
